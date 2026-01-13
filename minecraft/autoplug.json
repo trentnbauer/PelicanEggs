@@ -10,10 +10,7 @@
     "description": "AutoPlug is an automatic plugin and server updater.\r\n\r\nThis egg was made by Luna - https:\/\/lunauwu.net\/\r\nThank you for using PteroPlug and AutoPlug!\r\n\r\nhttps:\/\/github.com\/ImLunaUwU\/PteroPlug",
     "features": null,
     "docker_images": {
-        "ghcr.io\/pterodactyl\/yolks:java_17": "ghcr.io\/pterodactyl\/yolks:java_17",
-        "ghcr.io\/pterodactyl\/yolks:java_16": "ghcr.io\/pterodactyl\/yolks:java_16",
-        "ghcr.io\/pterodactyl\/yolks:java_11": "ghcr.io\/pterodactyl\/yolks:java_11",
-        "ghcr.io\/pterodactyl\/yolks:java_8": "ghcr.io\/pterodactyl\/yolks:java_8"
+        "ghcr.io\/pterodactyl\/yolks:java_17": "ghcr.io\/pterodactyl\/yolks:java_21"
     },
     "file_denylist": [],
     "startup": "java -Xms128M -Xmx500M -Dterminal.jline=false -Dterminal.ansi=true -jar AutoPlug-Client.jar",
