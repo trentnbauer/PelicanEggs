@@ -4,11 +4,11 @@
         "version": "PLCN_v3",
         "update_url": null
     },
-    "exported_at": "2026-01-14T01:30:00+00:00",
+    "exported_at": "2026-01-14T12:30:00+00:00",
     "name": "AutoPlug Minecraft Modified",
     "author": "major@ytmajor.com",
     "uuid": "94546055-3945-47b1-96b5-3b3eef78ba74",
-    "description": "AutoPlug with Modern Java 21 ZGC flags and dynamic memory overhead calculation.",
+    "description": "AutoPlug with Modern Java 21 ZGC flags. Optimized for Pelican.",
     "image": null,
     "tags": [],
     "features": [],
@@ -27,7 +27,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\r\n# AutoPlug & Game Installation Script\r\ncd /mnt/server\r\napt update\r\napt install -y curl jq wget\r\n\r\nmkdir -p autoplug mods plugins\r\n\r\necho -e \"Installing AutoPlug...\"\r\nif [ ! -f AutoPlug-Client.jar ]; then\r\n    wget -O AutoPlug-Client.jar https://raw.githubusercontent.com/Osiris-Team/AutoPlug-Releases/master/stable-builds/AutoPlug-Client.jar\r\nfi\r\n\r\nwget -O server.properties https://raw.githubusercontent.com/parkervcp/eggs/master/minecraft/java/server.properties\r\nwget -O autoplug/general.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/general.yml\r\nwget -O autoplug/updater.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/updater.yml",
+            "script": "#!/bin/bash\r\ncd /mnt/server\r\napt update\r\napt install -y curl jq wget\r\nmkdir -p autoplug mods plugins\r\n\r\nif [ ! -f AutoPlug-Client.jar ]; then\r\n    wget -O AutoPlug-Client.jar https://raw.githubusercontent.com/Osiris-Team/AutoPlug-Releases/master/stable-builds/AutoPlug-Client.jar\r\nfi\r\n\r\nwget -O server.properties https://raw.githubusercontent.com/parkervcp/eggs/master/minecraft/java/server.properties\r\nwget -O autoplug/general.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/general.yml\r\nwget -O autoplug/updater.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/updater.yml",
             "container": "debian:bookworm-slim",
             "entrypoint": "bash"
         }
@@ -41,32 +41,30 @@
             "default_value": "purpur",
             "user_viewable": true,
             "user_editable": true,
-            "rules": [ "required", "string", "max:20" ]
+            "rules": [ "required", "string" ]
         },
         {
             "sort": 2,
             "name": "AutoPlug Server Key",
-            "description": "Key from autoplug.one",
             "env_variable": "SERVER_KEY",
             "default_value": "null",
             "user_viewable": true,
             "user_editable": true,
-            "rules": [ "nullable", "string", "max:300" ]
+            "rules": [ "nullable", "string" ]
         },
         {
             "sort": 3,
             "name": "Game Version",
-            "description": "1.x.x",
             "env_variable": "GAME_VERSION",
             "default_value": "latest",
             "user_viewable": true,
             "user_editable": true,
-            "rules": [ "required", "string", "max:20" ]
+            "rules": [ "required", "string" ]
         },
         {
             "sort": 4,
             "name": "Java Launch Arguments",
-            "description": "Modern ZGC flags for Java 21+.",
+            "description": "Modern ZGC flags.",
             "env_variable": "JAVA_ARGS",
             "default_value": "-XX:+UseZGC -XX:+ZGenerational -Dterminal.jline=false -Dterminal.ansi=true",
             "user_viewable": true,
@@ -76,12 +74,12 @@
         {
             "sort": 5,
             "name": "Server RAM",
-            "description": "Calculates heap size automatically. Subtracts 512MB-1.5GB for system/Java overhead.",
+            "description": "The amount of RAM in MB to allocate to the Minecraft Heap. (e.g. 7168 for 7GB).",
             "env_variable": "SERVER_RAM",
-            "default_value": "round({{SERVER_MEMORY}} - max(512, min(1536, {{SERVER_MEMORY}} * 0.1)))",
+            "default_value": "7168",
             "user_viewable": true,
             "user_editable": true,
-            "rules": [ "required", "string" ]
+            "rules": [ "required", "numeric" ]
         }
     ]
 }
