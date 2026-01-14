@@ -4,11 +4,11 @@
         "version": "PLCN_v3",
         "update_url": null
     },
-    "exported_at": "2026-01-14T13:00:00+00:00",
+    "exported_at": "2026-01-14T13:30:00+00:00",
     "name": "AutoPlug Minecraft Modified",
     "author": "major@ytmajor.com",
     "uuid": "94546055-3945-47b1-96b5-3b3eef78ba74",
-    "description": "AutoPlug with pre-calculated ZGC memory logic.",
+    "description": "AutoPlug with automated ZGC memory calculation. No manual RAM variable required.",
     "image": null,
     "tags": [],
     "features": [],
@@ -20,14 +20,14 @@
         "Default": "java -Xms128M -Xmx500M -Dterminal.jline=false -Dterminal.ansi=true -jar AutoPlug-Client.jar"
     },
     "config": {
-        "files": "{\n    \"server.properties\": {\n        \"parser\": \"properties\",\n        \"find\": {\n            \"server-ip\": \"0.0.0.0\",\n            \"server-port\": \"{{server.allocations.default.port}}\"\n        }\n    },\n    \".\\/autoplug\\/general.yml\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"    key:\": \"    key: {{server.environment.SERVER_KEY}}\",\n            \"    start-command: \": \"    start-command: java -Xms{{server.environment.SERVER_RAM}}M -Xmx{{server.environment.SERVER_RAM}}M {{server.environment.JAVA_ARGS}} -jar \\\".\\/{{server.environment.SERVER_TYPE}}.jar\\\"\"\n        }\n    },\n    \".\\/autoplug\\/updater.yml\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"    software:\": \"    software: {{server.environment.SERVER_TYPE}}\",\n            \"    version: \": \"    version: {{server.environment.GAME_VERSION}}\"\n        }\n    }\n}",
+        "files": "{\n    \"server.properties\": {\n        \"parser\": \"properties\",\n        \"find\": {\n            \"server-ip\": \"0.0.0.0\",\n            \"server-port\": \"{{server.build.default.port}}\"\n        }\n    },\n    \".\\/autoplug\\/general.yml\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"    key:\": \"    key: {{server.environment.SERVER_KEY}}\",\n            \"    start-command: \": \"    start-command: java -Xms{{server.build.memory|math:\"x - 1024\"}}M -Xmx{{server.build.memory|math:\"x - 1024\"}}M {{server.environment.JAVA_ARGS}} -jar \\\".\\/{{server.environment.SERVER_TYPE}}.jar\\\"\"\n        }\n    },\n    \".\\/autoplug\\/updater.yml\": {\n        \"parser\": \"file\",\n        \"find\": {\n            \"    software:\": \"    software: {{server.environment.SERVER_TYPE}}\",\n            \"    version: \": \"    version: {{server.environment.GAME_VERSION}}\"\n        }\n    }\n}",
         "startup": "{\n    \"done\": \")! For help, type \"\n}",
         "logs": "{}",
         "stop": ".stop both"
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\r\ncd /mnt/server\r\napt update\r\napt install -y curl jq wget\r\nmkdir -p autoplug mods plugins\r\n\r\nif [ ! -f AutoPlug-Client.jar ]; then\r\n    wget -O AutoPlug-Client.jar https://raw.githubusercontent.com/Osiris-Team/AutoPlug-Releases/master/stable-builds/AutoPlug-Client.jar\r\nfi\r\n\r\nwget -O server.properties https://raw.githubusercontent.com/parkervcp/eggs/master/minecraft/java/server.properties\r\nwget -O autoplug/general.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/general.yml\r\nwget -O autoplug/updater.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/updater.yml",
+            "script": "#!/bin/bash\ncd /mnt/server\napt update\napt install -y curl jq wget\nmkdir -p autoplug mods plugins\nif [ ! -f AutoPlug-Client.jar ]; then\n    wget -O AutoPlug-Client.jar https://raw.githubusercontent.com/Osiris-Team/AutoPlug-Releases/master/stable-builds/AutoPlug-Client.jar\nfi\nwget -O server.properties https://raw.githubusercontent.com/parkervcp/eggs/master/minecraft/java/server.properties\nwget -O autoplug/general.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/general.yml\nwget -O autoplug/updater.yml https://raw.githubusercontent.com/ImLunaUwU/PteroPlug/main/updater.yml",
             "container": "debian:bookworm-slim",
             "entrypoint": "bash"
         }
@@ -63,18 +63,9 @@
         {
             "sort": 4,
             "name": "Java Launch Arguments",
+            "description": "Modern ZGC flags.",
             "env_variable": "JAVA_ARGS",
             "default_value": "-XX:+UseZGC -XX:+ZGenerational -Dterminal.jline=false -Dterminal.ansi=true",
-            "user_viewable": true,
-            "user_editable": true,
-            "rules": [ "required", "string" ]
-        },
-        {
-            "sort": 5,
-            "name": "Server RAM",
-            "description": "Calculated Heap Size.",
-            "env_variable": "SERVER_RAM",
-            "default_value": "{{server.memory|math:\"x - max(512, min(1536, x * 0.1))\"|round}}",
             "user_viewable": true,
             "user_editable": true,
             "rules": [ "required", "string" ]
