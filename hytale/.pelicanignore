@@ -1,0 +1,7 @@
+*.log
+*.jar
+*.png
+cache/
+logs/
+*.zip
+backups/
