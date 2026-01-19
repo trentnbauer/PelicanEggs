@@ -4,7 +4,7 @@
         "version": "PLCN_v3",
         "update_url": null
     },
-    "exported_at": "2026-01-19T07:43:49+00:00",
+    "exported_at": "2026-01-19T10:54:00+00:00",
     "name": "Unreal Tournament 2004",
     "author": "noreply@schafhaupt.com",
     "uuid": "51865a23-246e-4839-8ade-9fad298b3bbd",
@@ -17,7 +17,7 @@
     },
     "file_denylist": [],
     "startup_commands": {
-        "Default": "./start.sh {{GAMEMODE}} {{SERVER_PORT}} {{WEBADMIN_PORT}} {{ADMINNAME}} {{ADMINPASSWORD}} {{MUTATORS}} {{MINPLAYERS}} {{MAXPLAYERS}} {{EXTRA}}"
+        "Default": "./start.sh -mode \"{{gamemode}}\" -port \"{{SERVER_PORT}}\" -webport \"{{webadmin_port}}\" -admin \"{{ADMINNAME}}\" -pass \"{{ADMINPASSWORD}}\" -mutator \"{{MUTATORS}}\" -min \"{{MINPLAYERS}}\" -max \"{{MAXPLAYERS}}\" -extra \"{{EXTRA}}\""
     },
     "config": {
         "files": "{}",
@@ -27,7 +27,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\r\n\r\n\r\n#download server files\r\necho \"running: curl -sSL -o https://s3.amazonaws.com/ut2004-files/dedicated-server-3339-bonuspack.tar.gz\"\r\ncurl -sSL -o dedicated-server-3339-bonuspack.tar.gz https://s3.amazonaws.com/ut2004-files/dedicated-server-3339-bonuspack.tar.gz\r\n\r\n#unpack\r\nmkdir -p /mnt/server\r\ntar -xzvf dedicated-server-3339-bonuspack.tar.gz --strip-components=1 -C /mnt/server/\r\ncp -R /mnt/server/ut-server/* /mnt/server\r\nrm -rf /mnt/server/ut-server\r\nrm -rf mnt/server/System/UT2004.ini\r\n\r\n#get setup files\r\necho \"Downloading setup files\"\r\ncurl https://raw.githubusercontent.com/GFXSpeed/ut2004_pterodactyl/main/setup_files/UT2004.ini>> mnt/server/System/UT2004.ini\r\ncurl https://raw.githubusercontent.com/trentnbauer/PelicanEggs/blob/main/ut2004/start.sh>> mnt/server/start.sh\\\r\n\r\necho \"Generating cdkey file\"\r\ntouch /mnt/server/System/cdkey\r\n\r\n#set permissions\r\necho \"Fixing permissions\"\r\nfind /mnt/server/ -type d -exec chmod 755 {} +\r\nfind /mnt/server/ -type f -exec chmod 644 {} +\r\nchmod +x /mnt/server/System/ucc-bin\r\nchmod +x /mnt/server/start.sh\r\n\r\ncd /mnt/server || exit\r\n\r\nchown -R root:root /mnt\r\n\r\nexport HOME=/mnt/server\r\n\r\n## install end\r\necho \"-----------------------------------------\"\r\necho \"Installation completed...\"\r\necho \"-----------------------------------------\"",
+            "script": "#!/bin/bash\r\n\r\n\r\n#download server files\r\necho \"running: curl -sSL -o https://s3.amazonaws.com/ut2004-files/dedicated-server-3339-bonuspack.tar.gz\"\r\ncurl -sSL --progress-bar -o dedicated-server-3339-bonuspack.tar.gz https://s3.amazonaws.com/ut2004-files/dedicated-server-3339-bonuspack.tar.gz\r\n\r\n#unpack\r\nmkdir -p /mnt/server\r\ntar -xzvf dedicated-server-3339-bonuspack.tar.gz --strip-components=1 -C /mnt/server/\r\ncp -R /mnt/server/ut-server/* /mnt/server\r\nrm -rf /mnt/server/ut-server\r\nrm -rf mnt/server/System/UT2004.ini\r\n\r\n#get setup files\r\necho \"Downloading setup files\"\r\ncurl https://raw.githubusercontent.com/GFXSpeed/ut2004_pterodactyl/main/setup_files/UT2004.ini>> mnt/server/System/UT2004.ini\r\ncurl https://raw.githubusercontent.com/trentnbauer/PelicanEggs/main/ut2004/start.sh>> mnt/server/start.sh\\\r\n\r\necho \"Generating cdkey file\"\r\ntouch /mnt/server/System/cdkey\r\n\r\n#set permissions\r\necho \"Fixing permissions\"\r\nfind /mnt/server/ -type d -exec chmod 755 {} +\r\nfind /mnt/server/ -type f -exec chmod 644 {} +\r\nchmod +x /mnt/server/System/ucc-bin\r\nchmod +x /mnt/server/start.sh\r\n\r\ncd /mnt/server || exit\r\n\r\nchown -R root:root /mnt\r\n\r\nexport HOME=/mnt/server\r\n\r\n## install end\r\necho \"-----------------------------------------\"\r\necho \"Installation completed...\"\r\necho \"-----------------------------------------\"",
             "container": "ghcr.io/parkervcp/installers:debian",
             "entrypoint": "bash"
         }
