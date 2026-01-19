@@ -1,54 +1,12 @@
 #!/bin/sh
 
-# Game types:
-#
-# XGame.xDeathMatch			Standard DeathMatch
-# BonusPack.xLastManStandingGame	Last Man Standing
-# XGame.xTeamGame			Team DeathMatch
-# Onslaught.ONSOnslaughtGame		Onslaught
-# XGame.xBombingRun			Bombing Run
-# SkaarjPack.Invasion			Invasion
-# XGame.xVehicleCTFGame			Vehicle CTF
-# UT2K4Assault.ASGameInfo		Assault
-# XGame.xDoubleDom			Double Domination
-# BonusPack.xMutantGame			Mutant
-# XGame.xCTFGame			Capture The Flag
-#
-#
-# Mutators.
-#
-# XWeapons.MutArena			Arena
-# UnrealGame.MutBigHead			Big Head
-# XGame.MutHeliumCorpses		Float-Away Corpses
-# XGame.MutInstaGibS			Instagib
-# XGame.MutZoomInstaGib			Zoom Instagib
-# UnrealGame.MutLowGrav			Low Gravity
-# XGame.MutNoAdrenaline			No Adrenaline
-# XWeapons.MutNoSuperWeapon		No Super Weapons
-# XGame.MutQuadJump			Quad Jump
-# XGame.MutRegen			Auto Healing
-# XGame.MutSlomoDeath			Slow Motion Deaths
-# XGame.MutSpeciesStats			Species Specific Stats
-# XGame.MutVampire			Vampire
-# UT2004RPG.MutUT2004RPG
-################################################################
-#
-# Stuff you will probably want to change.
-#
-# GAMEDIR - point it to the directory in which the server is installed
-# INIFILE - the .ini file your server uses
-# ADMINNAME - the 'name' of your webadmin user, if you use web admin
-# ADMINPASS - the password for your webadmin user, if you use web admin
-#
 GAMEDIR=/home/container
 INIFILE=${GAMEDIR}/System/UT2004.ini
 ADMINNAME='AdminName='${4}
 ADMINPASS='AdminPassword='${5}
-#
-#
-# Game types which are used by this script.  Change as desired, but be
-# aware of the consequences.  They work fine as is.
-#
+MUTATORS=${6}
+
+## Gamemode Logic
 DEATHMATCH='DM-Rankin?game=XGame.xDeathMatch'
 LASTMANSTANDING='DM-Morpheus3?game=BonusPack.xLastManStandingGame'
 TEAMDEATHMATCH='DM-Rankin?game=XGame.xTeamGame'
@@ -60,14 +18,7 @@ DOUBLEDOM='DOM-SunTemple?game=xGame.xDoubleDom'
 MUTANT='DM-Morpheus3?game=BonusPack.xMutantGame'
 CTF='CTF-Orbital2?game=XGame.xCTFGame'
 
-#
-# Set your Mutators
-# 
-MUTATORS=${5}
 
-#
-# Files.
-#
 LOGDIR=${GAMEDIR}/logs
 SERVER=${GAMEDIR}/System/ucc-bin
 LOG=${GAMEDIR}/ut2004-server.log
@@ -78,7 +29,6 @@ CACHEBACKUP=${GAMEDIR}/System/CacheRecords.bak
 
 # How many times to loop & restart if the server dies.  To disable looping,
 # set this to 1.
-#
 LOOPS=4
 
 #
