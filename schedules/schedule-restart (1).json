@@ -1,0 +1,54 @@
+{
+    "name": "Restart",
+    "is_active": true,
+    "only_when_online": true,
+    "cron_minute": "0",
+    "cron_hour": "*\/6",
+    "cron_day_of_month": "*",
+    "cron_month": "*",
+    "cron_day_of_week": "*",
+    "tasks": [
+        {
+            "sequence_id": 1,
+            "action": "command",
+            "payload": "say server restarting in 15 minutes",
+            "time_offset": 0,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 2,
+            "action": "command",
+            "payload": "say server restarting in 10 minutes",
+            "time_offset": 300,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 3,
+            "action": "command",
+            "payload": "say server restarting in 5 minutes",
+            "time_offset": 300,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 4,
+            "action": "command",
+            "payload": "say server restarting in 3 minutes",
+            "time_offset": 120,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 5,
+            "action": "command",
+            "payload": "say server restarting in 1 minute",
+            "time_offset": 120,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 6,
+            "action": "power",
+            "payload": "restart",
+            "time_offset": 75,
+            "continue_on_failure": false
+        }
+    ]
+}
