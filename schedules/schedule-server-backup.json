@@ -1,0 +1,26 @@
+{
+    "name": "Server Backup",
+    "is_active": true,
+    "only_when_online": true,
+    "cron_minute": "0",
+    "cron_hour": "18",
+    "cron_day_of_month": "*",
+    "cron_month": "*",
+    "cron_day_of_week": "*",
+    "tasks": [
+        {
+            "sequence_id": 1,
+            "action": "command",
+            "payload": "say server backup starting - you may experience some lag",
+            "time_offset": 0,
+            "continue_on_failure": false
+        },
+        {
+            "sequence_id": 2,
+            "action": "backup",
+            "payload": "",
+            "time_offset": 0,
+            "continue_on_failure": false
+        }
+    ]
+}
